@@ -37,7 +37,7 @@ public class MainUI {
 				System.out.println("♠• In order to create your account, we require you to fill few details •♠");
 				try {
 					while (true) {
-//..
+						// ..
 						System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
 						System.out.println("█ • Enter your Full Name     █");
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
@@ -191,7 +191,7 @@ public class MainUI {
 						System.out.println("█ • Enter the amount you want to deposit █");
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 						double depo = sc.nextDouble();
-						ps.depositBalance(depo, pw);
+						System.out.println(ps.depositBalance(depo, pw));
 
 						System.out.println("♠• Amount Successfuly Deposited. •♠");
 
@@ -223,7 +223,8 @@ public class MainUI {
 						System.out.println("█ • Enter the amount you want to withdraw  █");
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ ");
 						double with = sc.nextDouble();
-						ps.withdrawBalance(with, pw);
+						if(ps.withdrawBalance(with, pw)!=null);
+						System.out.println(ps.withdrawBalance(with, pw));
 						System.out.println("♠• Amount Successfuly Withdrawn. •♠");
 						break;
 					} else if (pw == null) {
@@ -265,10 +266,9 @@ public class MainUI {
 							System.out.println("♠• Transaction ID: " + transactionId);
 							break;
 						} else if (pw == null) {
-							System.err.println("The bank account you entered is either wrong, or does not exist!");
 							break;
 						}
-						
+
 					}
 				}
 
@@ -276,7 +276,7 @@ public class MainUI {
 
 				}
 			case 6:
-				
+
 				try {
 					System.out.println("♠• Please sign in to view transactions. •♠");
 					System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
@@ -288,7 +288,7 @@ public class MainUI {
 					System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 					String password = br.readLine();
 					pw = sv.validateLogIn(username, password);
-					if(pw!=null) {
+					if (pw != null) {
 						System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
 						System.out.println("█ • Enter the transaction ID      █");
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
@@ -300,7 +300,6 @@ public class MainUI {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
 
 			}
 		}

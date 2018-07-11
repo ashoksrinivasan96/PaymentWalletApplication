@@ -25,8 +25,6 @@ public class PaymentDAO implements IPaymentDAO {
 
 		pw.setBalance(pw.getBalance() + deposit);
 
-		System.out.println(pw);
-
 		return pw;
 	}
 
@@ -35,7 +33,7 @@ public class PaymentDAO implements IPaymentDAO {
 		double remainder = pw.getBalance() - withdraw;
 		if (remainder >= 0) {
 			pw.setBalance(remainder);
-			System.out.println(pw);
+
 			return pw;
 		} else {
 			System.err.println("Insufficient Balance!");
@@ -56,6 +54,7 @@ public class PaymentDAO implements IPaymentDAO {
 
 			if (pw.getBankAccount() == bankaccount2) {
 				System.err.println("Cannot transfer funds to yourself!");
+				break;
 			}
 
 			if (obj.getBankAccount() == (bankaccount2)) {
@@ -64,11 +63,12 @@ public class PaymentDAO implements IPaymentDAO {
 					obj.setBalance(obj.getBalance() + amount);
 					pw.setBalance(userOneBalance - amount);
 					pw.setAmount(amount);
+					return obj;
 				}
 
-				else
-					System.err.println("Insufficient funds!");
-				return obj;
+				else {
+					System.err.println("Insufficient funds!");}
+				
 			}
 
 		}
