@@ -18,29 +18,29 @@ public class PaymentDAOTest {
 
 	@Test
 	public void testShowBalance() {
-		assertNotNull(pw);
+		assertNotNull(pd.showBalance(pw));
 		
 	}
 
 	@Test
 	public void testDepositBalance() {
-		assertNotNull(pw);
+		assertNotNull(pd.depositBalance(5000, pw));
 		
 	}
 
 	@Test
 	public void testWithdrawBalance() {
-		assertNotNull(pw);
+		assertNull(pd.withdrawBalance(400, pw));
 		
 	}
 	@Test
 	public void testTransferFund() {
-		assertNotNull(pw);
+		assertNull(pd.transferFund(1122334, 5000, pw));
 		
 	}
 	@Test
 	public void testPrintTransaction() {
-		assertNotNull(pw);
+		assertNull(pd.printTransaction(12345678, pw));
 		
 	}
 

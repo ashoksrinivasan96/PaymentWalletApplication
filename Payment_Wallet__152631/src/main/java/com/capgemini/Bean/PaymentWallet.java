@@ -12,6 +12,7 @@ public class PaymentWallet {
 	private String password;
 	private String gender;
 	private long bankAccount;
+	private long bankAccount2;
 	private double amount;
 
 	public String getConsumerName() {
@@ -106,6 +107,14 @@ public class PaymentWallet {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public long getBankAccount2() {
+		return bankAccount2;
+	}
+
+	public void setBankAccount2(long bankAccount2) {
+		this.bankAccount2 = bankAccount2;
 	}
 
 }

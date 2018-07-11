@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 import com.capgemini.Bean.PaymentWallet;
-import com.capgemini.DAO.PaymentDAO;
+
 import com.capgemini.Service.PaymentService;
 import com.capgemini.Service.ServiceValidation;
 
@@ -222,14 +222,20 @@ public class MainUI {
 						System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
 						System.out.println("█ • Enter the amount you want to withdraw  █");
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ ");
-						double with = sc.nextDouble();
-						if(ps.withdrawBalance(with, pw)!=null);
-						System.out.println(ps.withdrawBalance(with, pw));
-						System.out.println("♠• Amount Successfuly Withdrawn. •♠");
-						break;
+						double withdraw = sc.nextDouble();
+						if (ps.withdrawBalance(withdraw, pw) != null) {
+							System.out.println(pw);
+							System.out.println("♠• Amount Successfuly Withdrawn. •♠");
+							break;
+						} else if (ps.withdrawBalance(withdraw, pw) == null) {
+							System.err.println("Insufficient Funds!");
+							break;
+						}
+
 					} else if (pw == null) {
 						System.err.println("Incorrect Username or Password!");
 					}
+
 					break;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -253,13 +259,14 @@ public class MainUI {
 						System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
 						System.out.println("█ • Enter the bank account you wanna transfer fund  █");
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-						long bankaccount2 = Long.parseLong(br.readLine());
+						long bankAccount2 = Long.parseLong(br.readLine());
 						System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
 						System.out.println("█ • Enter the amount         █");
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 						double amount = Double.parseDouble(br.readLine());
-						pw = ps.transferFund(bankaccount2, amount, pw);
+						pw = ps.transferFund(bankAccount2, amount, pw);
 						if (pw != null) {
+							pw.setAmount(amount);
 							long transactionId = (long) (Math.random() * 10000000 + 99999999);
 							pw.setTransactionId(transactionId);
 							System.out.println("♠• Funds Transferred Successfully! •♠");
@@ -293,15 +300,26 @@ public class MainUI {
 						System.out.println("█ • Enter the transaction ID      █");
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 						long transId = Long.parseLong(br.readLine());
-						ps.printTransaction(transId, pw);
-						break;
-					}
+						pw = ps.printTransaction(transId, pw);
+						if (ps.printTransaction(transId, pw) != null) {
+							System.out.println(
+									"♠• Transaction details for the transaction ID: " + pw.getTransactionId() + "•♠");
+							System.out.println("Receiver's Name: " + pw.getConsumerName());
+							System.out.println("Account Number: " + pw.getBankAccount());
+							System.out.println("Amount transacted: " + pw.getAmount());
+							break;
+						}
+
+					} else
+						System.err.println("The transaction ID you entered is either wrong, or does not exist!");
+					break;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
 			}
+
 		}
 	}
 }

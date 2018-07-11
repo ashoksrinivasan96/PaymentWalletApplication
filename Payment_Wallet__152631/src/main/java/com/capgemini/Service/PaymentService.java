@@ -34,10 +34,10 @@ public class PaymentService implements IPaymentService {
 		
 	}
 
-	public void printTransaction(long transId, PaymentWallet pw) {
+	public PaymentWallet printTransaction(long transId, PaymentWallet pw) {
 
 		
-			pd.printTransaction(transId, pw);
+			return pd.printTransaction(transId, pw);
 		
 		
 	}

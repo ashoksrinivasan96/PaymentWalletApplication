@@ -11,7 +11,9 @@ public interface IPaymentService {
 	public PaymentWallet depositBalance(double deposit, PaymentWallet pw);
 
 	public PaymentWallet withdrawBalance(double withdraw, PaymentWallet pw);
-	
+
 	public PaymentWallet transferFund(long bankaccount2, double amount, PaymentWallet pw);
+
+	public PaymentWallet printTransaction(long transId, PaymentWallet pw);
 
 }
