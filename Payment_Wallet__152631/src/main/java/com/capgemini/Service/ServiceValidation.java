@@ -42,10 +42,17 @@ public class ServiceValidation {
 
 	}
 
-	public boolean validateUserName(String a) {
+	public boolean validateUserName(String username) {
+		ArrayList<AccountDetails> list = PaymentDAO.getList();
+		for(AccountDetails ad: list) {
+			if(ad.getUserName().equalsIgnoreCase(username)) {
+				System.err.println("Username already Exists!");
+				return false;
+			}
+		}
 		String username_pattern = "^[a-zA-Z0-9._-]{3,25}$";
 		this.pattern = Pattern.compile(username_pattern);
-		matcher = pattern.matcher(a);
+		matcher = pattern.matcher(username);
 		return matcher.matches();
 	}
 
@@ -54,11 +61,11 @@ public class ServiceValidation {
 		if (!password.equals(repassword)) {
 			System.err.println("Password Mismatch");
 
-		} else if (password.equals(repassword) && password.length() > 5 && password.length() < 20) {
+		} else if (password.equals(repassword) && password.length() >= 5 && password.length() < 20) {
 			c = true;
 
-		} else if (password.length() < 8) {
-			System.err.println("The password should be of a minimum length of 8 and a maximum length of 20.");
+		} else if (password.length() < 5) {
+			System.err.println("The password should be of a minimum length of 5 and a maximum length of 20.");
 		}
 		return c;
 	}
@@ -72,7 +79,7 @@ public class ServiceValidation {
 	}
 
 	public boolean validatePhoneNo(String phoneNo) {
-
+		
 		String phone_pattern = "^[6-9]\\d{9}$";
 		this.pattern = Pattern.compile(phone_pattern);
 		matcher = pattern.matcher(phoneNo);

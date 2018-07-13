@@ -25,8 +25,7 @@ public class TransactionDetails {
 	}
 	@Override
 	public String toString() {
-		return "TransactionDetails [transactionId=" + transactionId + ", transactionDate=" + transactionDate
-				+ ", transactionDetails=" + transactionDetails + "]";
+		return " █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█\nTransaction Date\tTransaction ID \tTransaction Type \t Amount \t Balance\n "; 
 	}
 
 	public long getTransactionId() {

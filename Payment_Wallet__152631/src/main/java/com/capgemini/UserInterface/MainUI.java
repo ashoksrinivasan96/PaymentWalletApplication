@@ -17,7 +17,6 @@ public class MainUI {
 
 	public static void main(String[] args) {
 
-		
 		ServiceValidation sv = new ServiceValidation();
 		PaymentService ps = new PaymentService();
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -48,7 +47,7 @@ public class MainUI {
 						String consumerName = br.readLine();
 						cd.setConsumerName(consumerName);
 						if (!sv.validateConsumerName(consumerName)) {
-							System.err.println("Invalid Name format!");
+							System.err.println("Invalid Name format!\n");
 							continue;
 						} else
 							break;
@@ -61,7 +60,7 @@ public class MainUI {
 						int age = Integer.parseInt(br.readLine());
 						cd.setAge(age);
 						if (!sv.validateAge(age)) {
-							System.err.println("Invalid Age!");
+							System.err.println("Invalid Age!\n");
 							continue;
 						} else {
 							break;
@@ -89,7 +88,7 @@ public class MainUI {
 						String userName = br.readLine();
 						ad.setUserName(userName);
 						if (!sv.validateUserName(userName)) {
-							System.err.println("Invalid Username!");
+							System.err.println("Invalid Username!\n");
 							continue;
 						} else {
 							break;
@@ -120,7 +119,7 @@ public class MainUI {
 						if (sv.validateEmailID(email)) {
 							break;
 						} else {
-							System.err.println("Invalid Email Format!");
+							System.err.println("Invalid Email Format!\n");
 							continue;
 						}
 					}
@@ -133,7 +132,7 @@ public class MainUI {
 						if (sv.validatePhoneNo(phoneNo)) {
 							break;
 						} else {
-							System.err.println("Please enter a valid mobile number.");
+							System.err.println("Please enter a valid mobile number.\n");
 							continue;
 						}
 					}
@@ -141,15 +140,14 @@ public class MainUI {
 					ad.setBankAccount(bankAccount);
 					System.out.println("♠• Thank you for providing the details. •♠\n ♠• You have been assigned "
 							+ bankAccount + " as your unique bank account number •♠.");
-					
+
 					ad.setBalance(0);
-					
-					
+
 					td.setTransactionDetails(transactionDetails);
 					cd.setTransactionD(td);
 					ad.setCd(cd);
 					ps.createAccount(ad);
-					
+
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -173,10 +171,11 @@ public class MainUI {
 					if (ad != null) {
 
 						while (true) {
-							long transactionId, bankAccount2;
+							long transactionId, bankAccount;
 							double deposit, withdraw, amount;
 
-							System.out.println("♠• Welcome " + ad.getConsumer().getConsumerName() + ". What would you like to do? ");
+							System.out.println("♠• Welcome " + ad.getConsumer().getConsumerName()
+									+ ". What would you like to do? ");
 							System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
 							System.out.println("█     1. Show Balance              █");
 							System.out.println("█     2. Deposit                   █");
@@ -202,13 +201,16 @@ public class MainUI {
 								System.out.println("♠• Amount Successfuly Deposited. •♠");
 								System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
 								ad.setAmount(deposit);
+								ad.getConsumer().getTransactionD().setTransactionDate(LocalDate.now());
 								transactionId = (long) (Math.random() * 10000000 + 99999999);
-								transactionDetails.add((String.valueOf(ad.getConsumer().getTransactionD().getTransactionDate()) + "\t"));
-								transactionDetails.add((String.valueOf(td.getTransactionDate()) + "\t"));
-								transactionDetails.add(String.valueOf(transactionId) + "\t");
-								transactionDetails.add(String.valueOf(ad.getAmount()) + "\t");
-								transactionDetails.add(String.valueOf(ad.getBalance())+"\n");
-								ad.getConsumer().getTransactionD().setTransactionDetails(transactionDetails);
+								ad.getConsumer().getTransactionD().getTransactionDetails()
+										.add((String.valueOf(ad.getConsumer().getTransactionD().getTransactionDate())
+												+ "      \t"));
+								ad.getConsumer().getTransactionD().getTransactionDetails().add(String.valueOf(transactionId) + "\t");
+								ad.getConsumer().getTransactionD().getTransactionDetails().add("Credited\t\t");
+								ad.getConsumer().getTransactionD().getTransactionDetails().add(String.valueOf(ad.getAmount()) + " \t");
+								ad.getConsumer().getTransactionD().getTransactionDetails().add(String.valueOf(ad.getBalance()) + "\n");
+								
 
 								continue;
 							case 3:
@@ -224,11 +226,14 @@ public class MainUI {
 									ad.setAmount(withdraw);
 									transactionId = (long) (Math.random() * 10000000 + 99999999);
 									ad.getConsumer().getTransactionD().setTransactionDate(LocalDate.now());
-									transactionDetails.add((String.valueOf(ad.getConsumer().getTransactionD().getTransactionDate()) + "\t"));
-									transactionDetails.add(String.valueOf(transactionId) + "\t");
-									transactionDetails.add(String.valueOf(ad.getAmount()) + "\t");
-									transactionDetails.add(String.valueOf(ad.getBalance())+"\n");
-									ad.getConsumer().getTransactionD().setTransactionDetails(transactionDetails);
+									ad.getConsumer().getTransactionD().getTransactionDetails().add(
+											(String.valueOf(ad.getConsumer().getTransactionD().getTransactionDate())
+													+ "      \t"));
+									ad.getConsumer().getTransactionD().getTransactionDetails().add(String.valueOf(transactionId) + " \t");
+									ad.getConsumer().getTransactionD().getTransactionDetails().add("Debited\t\t");
+									ad.getConsumer().getTransactionD().getTransactionDetails().add(String.valueOf(ad.getAmount()) + " \t");
+									ad.getConsumer().getTransactionD().getTransactionDetails().add(String.valueOf(ad.getBalance()) + "\n");
+									
 
 									continue;
 								} else if (ps.withdrawBalance(withdraw, ad) == null) {
@@ -242,33 +247,37 @@ public class MainUI {
 								System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
 								System.out.println("█ • Enter the bank account you wanna transfer fund  █");
 								System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-								bankAccount2 = Long.parseLong(br.readLine());
+								bankAccount = Long.parseLong(br.readLine());
 								System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
 								System.out.println("█ • Enter the amount         █");
 								System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 								amount = Double.parseDouble(br.readLine());
-								ps.transferFund(bankAccount2, amount, ad);
-								if (ps.transferFund(bankAccount2, amount, ad) != null) {
+								transactionId = (long) (Math.random() * 10000000 + 99999999);
+								ad.getConsumer().getTransactionD().setTransactionId(transactionId);
+								if (ps.transferFund(bankAccount, amount, ad)) {
 									System.out.println("♠• Funds Transferred Successfully! •♠");
 									ad.setAmount(amount);
-									
-									
-									transactionId = (long) (Math.random() * 10000000 + 99999999);
 									ad.getConsumer().getTransactionD().setTransactionDate(LocalDate.now());
-									transactionDetails.add((String.valueOf(ad.getConsumer().getTransactionD().getTransactionDate()) + "\t"));
-									transactionDetails.add(String.valueOf(transactionId) + "\t");
-									transactionDetails.add(String.valueOf(ad.getAmount()) + "\t");
-									transactionDetails.add(String.valueOf(ad.getBalance())+"\n");
-									ad.getConsumer().getTransactionD().setTransactionDetails(transactionDetails);
+									ad.getConsumer().getTransactionD().getTransactionDetails().add(
+											(String.valueOf(ad.getConsumer().getTransactionD().getTransactionDate())
+													+ "      \t"));
+									ad.getConsumer().getTransactionD().getTransactionDetails().add(String.valueOf(transactionId) + "\t");
+									ad.getConsumer().getTransactionD().getTransactionDetails().add("Debited\t\t");
+									ad.getConsumer().getTransactionD().getTransactionDetails().add(String.valueOf(ad.getAmount()) + " \t");
+									ad.getConsumer().getTransactionD().getTransactionDetails().add(String.valueOf(ad.getBalance()) + "\n");
+									
 
 									continue;
-								} else if (ps.transferFund(bankAccount2, amount, ad) == null) {
+								} else if (ps.transferFund(bankAccount, amount, ad) == false) {
+									System.err.println("Bank Account not found!");
 									continue;
 								}
 
 							case 5:
 								System.out.println(
-										"♠• Transaction details for the Bank Account Number " + ad.getBankAccount());
+										"  ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
+								System.out.println("  █           ♠• Transaction details for the Bank Account Number "
+										+ ad.getBankAccount() + " •♠         █");
 								ps.printTransaction(ad.getConsumer().getTransactionD());
 								continue;
 
@@ -280,15 +289,15 @@ public class MainUI {
 						}
 
 					} else if (ad == null) {
-						System.err.println("Incorrect Username or Password!");
-						break;
+						System.err.println("Incorrect Username or Password!\n");
+						continue;
 					}
 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				break;
+				continue;
 			}
 		}
 

@@ -16,7 +16,7 @@ public class PaymentService implements IPaymentService {
 
 	public void showBalance(AccountDetails ad) {
 
-		 pd.showBalance(ad);
+		pd.showBalance(ad);
 	}
 
 	public AccountDetails depositBalance(double deposit, AccountDetails ad) {
@@ -30,20 +30,16 @@ public class PaymentService implements IPaymentService {
 		return pd.withdrawBalance(withdraw, ad);
 	}
 
-	public AccountDetails transferFund(long bankaccount2, double amount, AccountDetails ad) {
-		
+	public boolean transferFund(long bankaccount2, double amount, AccountDetails ad) {
+
 		return pd.transferFund(bankaccount2, amount, ad);
-		
+
 	}
 
 	public void printTransaction(TransactionDetails td) {
 
-		
-			 pd.printTransaction(td);
-		
-		
-	}
+		pd.printTransaction(td);
 
-	
+	}
 
 }

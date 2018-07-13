@@ -1,7 +1,7 @@
 package com.capgemini.DAO;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-
 
 import com.capgemini.Bean.AccountDetails;
 
@@ -9,21 +9,18 @@ import com.capgemini.Bean.TransactionDetails;
 
 public class PaymentDAO implements IPaymentDAO {
 
-	
 	public static ArrayList<AccountDetails> accountInfo = new ArrayList<AccountDetails>();
-	
-	
-	public  static ArrayList<AccountDetails> getList() {
-		
+
+	public static ArrayList<AccountDetails> getList() {
+
 		return accountInfo;
-		
+
 	}
+
 	public boolean createAccount(AccountDetails ad) {
-		
-		 
-		
-		 return accountInfo.add(ad);
-		
+
+		return accountInfo.add(ad);
+
 	}
 
 	public void showBalance(AccountDetails ad) {
@@ -49,39 +46,57 @@ public class PaymentDAO implements IPaymentDAO {
 		return null;
 	}
 
-	public AccountDetails transferFund(long bankAccount2, double amount, AccountDetails ad) {
+	public boolean transferFund(long bankAccount, double amount, AccountDetails ad) {
+		
+		AccountDetails obj2 = new AccountDetails();
+		boolean flag = false;
+		if (ad.getBankAccount() == bankAccount) {
+			System.err.println("Cannot transfer funds to yourself!");
+			return flag;
+		}
 
-		double userOneBalance = ad.getBalance();
 		for (AccountDetails obj : accountInfo) {
-
-			if (ad.getBankAccount() == bankAccount2) {
-				System.err.println("Cannot transfer funds to yourself!");
+			 if (obj.getBankAccount() ==(bankAccount)) {
+				obj2 = obj;
+				flag = true;
 				break;
-			}
+			} else {
 
-			if (obj.getBankAccount() == (bankAccount2)) {
-				if (userOneBalance >= amount) {
-
-					obj.setBalance(obj.getBalance() + amount);
-					ad.setBalance(userOneBalance - amount);
-					return obj;
-				}
-
-				else {
-					System.err.println("Insufficient funds!");
-				}
+				flag = false;
 
 			}
+		}
+
+			if (ad.getBalance() >= amount && flag == true) {
+			ad.setBalance(ad.getBalance() - amount);
+			obj2.setBalance(obj2.getBalance() + amount);
+			obj2.setAmount(amount);
+			obj2.getConsumer().getTransactionD()
+					.setTransactionId(ad.getConsumer().getTransactionD().getTransactionId());
+			obj2.getConsumer().getTransactionD().setTransactionDate(LocalDate.now());
+			obj2.getConsumer().getTransactionD().getTransactionDetails()
+					.add((String.valueOf(obj2.getConsumer().getTransactionD().getTransactionDate()) + "      \t"));
+			obj2.getConsumer().getTransactionD().getTransactionDetails().add(String.valueOf(obj2.getConsumer().getTransactionD().getTransactionId()) + "\t");
+			obj2.getConsumer().getTransactionD().getTransactionDetails().add("Credited\t\t");
+			obj2.getConsumer().getTransactionD().getTransactionDetails().add(String.valueOf(obj2.getAmount()) + " \t");
+			obj2.getConsumer().getTransactionD().getTransactionDetails().add(String.valueOf(obj2.getBalance()) + "\n");
+			
+			return flag;
 
 		}
 
-		return null;
-
+		else {
+			System.err.println("Insufficient funds!");
+			return flag;
+		}
+		
 	}
 
 	public void printTransaction(TransactionDetails td) {
-		System.out.println("Transaction Date\tTransaction ID\tTransaction Amount \tBalance");
-		System.out.println(td.getTransactionDetails());
+		System.out.println(" " + td.toString());
+		System.out.println(
+				" " + td.getTransactionDetails().toString().replace("[", "").replace(",", "").replace("]", "").trim()
+						+ "\n");
 
 	}
 

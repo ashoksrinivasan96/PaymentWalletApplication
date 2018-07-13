@@ -35,7 +35,7 @@ public class PaymentDAOTest {
 	}
 	@Test
 	public void testTransferFund() {
-		assertNull(pd.transferFund(1122334, 5000, ad));
+		assertEquals(true, pd.transferFund(1122334, 5000, ad));
 		
 	}
 
