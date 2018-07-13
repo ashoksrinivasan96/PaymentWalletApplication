@@ -2,55 +2,59 @@ package com.capgemini.DAO;
 
 import java.util.ArrayList;
 
-import java.util.List;
 
-import com.capgemini.Bean.PaymentWallet;
+import com.capgemini.Bean.AccountDetails;
+
+import com.capgemini.Bean.TransactionDetails;
 
 public class PaymentDAO implements IPaymentDAO {
 
-	public static List<PaymentWallet> accountInfo = new ArrayList<PaymentWallet>();
-
-	public boolean createAccount(PaymentWallet pw) {
-
-		return accountInfo.add(pw);
-
-	}
-
-	public PaymentWallet showBalance(PaymentWallet pw) {
-
-		return pw;
-	}
-
-	public PaymentWallet depositBalance(double deposit, PaymentWallet pw) {
-
-		pw.setBalance(pw.getBalance() + deposit);
-
-		return pw;
-	}
-
-	public PaymentWallet withdrawBalance(double withdraw, PaymentWallet pw) {
-
-		double remainder = pw.getBalance() - withdraw;
-		if (remainder >= 0) {
-			pw.setBalance(remainder);
-			return pw;
+	
+	public static ArrayList<AccountDetails> accountInfo = new ArrayList<AccountDetails>();
+	
+	
+	public  static ArrayList<AccountDetails> getList() {
 		
+		return accountInfo;
+		
+	}
+	public boolean createAccount(AccountDetails ad) {
+		
+		 
+		
+		 return accountInfo.add(ad);
+		
+	}
+
+	public void showBalance(AccountDetails ad) {
+
+		System.out.println(ad);
+	}
+
+	public AccountDetails depositBalance(double deposit, AccountDetails ad) {
+
+		ad.setBalance(ad.getBalance() + deposit);
+
+		return ad;
+	}
+
+	public AccountDetails withdrawBalance(double withdraw, AccountDetails ad) {
+
+		double remainder = ad.getBalance() - withdraw;
+		if (remainder >= 0) {
+			ad.setBalance(remainder);
+			return ad;
+
 		}
 		return null;
 	}
 
-	public static List<PaymentWallet> getList() {
+	public AccountDetails transferFund(long bankAccount2, double amount, AccountDetails ad) {
 
-		return accountInfo;
+		double userOneBalance = ad.getBalance();
+		for (AccountDetails obj : accountInfo) {
 
-	}
-
-	public PaymentWallet transferFund(long bankAccount2, double amount, PaymentWallet pw) {
-
-		double userOneBalance = pw.getBalance();
-		for (PaymentWallet obj : accountInfo) {
-
-			if (pw.getBankAccount() == bankAccount2) {
+			if (ad.getBankAccount() == bankAccount2) {
 				System.err.println("Cannot transfer funds to yourself!");
 				break;
 			}
@@ -59,8 +63,7 @@ public class PaymentDAO implements IPaymentDAO {
 				if (userOneBalance >= amount) {
 
 					obj.setBalance(obj.getBalance() + amount);
-					pw.setBalance(userOneBalance - amount);
-					pw.setAmount(amount);
+					ad.setBalance(userOneBalance - amount);
 					return obj;
 				}
 
@@ -76,15 +79,9 @@ public class PaymentDAO implements IPaymentDAO {
 
 	}
 
-	public PaymentWallet printTransaction(long transId, PaymentWallet pw) {
-
-		for (PaymentWallet x : accountInfo) {
-			if (x.getTransactionId() == transId) {
-				return x;
-			}
-
-		}
-		return null;
+	public void printTransaction(TransactionDetails td) {
+		System.out.println("Transaction Date\tTransaction ID\tTransaction Amount \tBalance");
+		System.out.println(td.getTransactionDetails());
 
 	}
 

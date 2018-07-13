@@ -3,12 +3,12 @@ package com.capgemini.TestCases;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import com.capgemini.Bean.PaymentWallet;
+import com.capgemini.Bean.ConsumerDetails;
 import com.capgemini.Service.ServiceValidation;
 
 public class ServiceValidationTest {
 	ServiceValidation sv = new ServiceValidation();
-	PaymentWallet pw = new PaymentWallet();
+	ConsumerDetails pw = new ConsumerDetails();
 
 	@Test
 	public void testValidateLogIn() {

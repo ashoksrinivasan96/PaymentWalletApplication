@@ -3,31 +3,35 @@ package com.capgemini.UserInterface;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.capgemini.Bean.PaymentWallet;
-
+import com.capgemini.Bean.AccountDetails;
+import com.capgemini.Bean.ConsumerDetails;
+import com.capgemini.Bean.TransactionDetails;
 import com.capgemini.Service.PaymentService;
 import com.capgemini.Service.ServiceValidation;
 
 public class MainUI {
 
 	public static void main(String[] args) {
+
+		
 		ServiceValidation sv = new ServiceValidation();
 		PaymentService ps = new PaymentService();
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		while (true) {
-			PaymentWallet pw = new PaymentWallet();
+			ArrayList<String> transactionDetails = new ArrayList<String>();
+			ConsumerDetails cd = new ConsumerDetails();
+			AccountDetails ad = new AccountDetails();
+			TransactionDetails td = new TransactionDetails();
 
 			System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
 			System.out.println("█  PayMidas Payment Wallet Service █");
 			System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-			System.out.println("█     1. Create an Account         █ ");
-			System.out.println("█     2. Show Balance              █");
-			System.out.println("█     3. Deposit                   █");
-			System.out.println("█     4. Withdraw                  █");
-			System.out.println("█     5. Fund Transfer             █");
-			System.out.println("█     6. Print Transaction         █");
+			System.out.println("█     1. Create an Account         █");
+			System.out.println("█     2. Sign in                   █");
 			System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 
 			Scanner sc = new Scanner(System.in);
@@ -37,12 +41,12 @@ public class MainUI {
 				System.out.println("♠• In order to create your account, we require you to fill few details •♠");
 				try {
 					while (true) {
-						// ..
+
 						System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
 						System.out.println("█ • Enter your Full Name     █");
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 						String consumerName = br.readLine();
-						pw.setConsumerName(consumerName);
+						cd.setConsumerName(consumerName);
 						if (!sv.validateConsumerName(consumerName)) {
 							System.err.println("Invalid Name format!");
 							continue;
@@ -55,7 +59,7 @@ public class MainUI {
 						System.out.println("█ • Enter your age           █");
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 						int age = Integer.parseInt(br.readLine());
-						pw.setAge(age);
+						cd.setAge(age);
 						if (!sv.validateAge(age)) {
 							System.err.println("Invalid Age!");
 							continue;
@@ -70,7 +74,7 @@ public class MainUI {
 						System.out.println("█ • Enter your Gender        █");
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 						String gender = br.readLine();
-						pw.setGender(gender);
+						cd.setGender(gender);
 						if (!sv.validateGender(gender)) {
 							System.err.println("Invalid Gender!");
 							continue;
@@ -83,7 +87,7 @@ public class MainUI {
 						System.out.println("█ • Enter a Unique Username  █ ");
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 						String userName = br.readLine();
-						pw.setUserName(userName);
+						ad.setUserName(userName);
 						if (!sv.validateUserName(userName)) {
 							System.err.println("Invalid Username!");
 							continue;
@@ -101,7 +105,7 @@ public class MainUI {
 						System.out.println("█ • Re-Enter your Password   █");
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 						repassword = br.readLine();
-						pw.setPassword(password);
+						ad.setPassword(password);
 						if (sv.validatePassword(password, repassword)) {
 							break;
 						}
@@ -112,7 +116,7 @@ public class MainUI {
 						System.out.println("█ • Enter your Email address █");
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 						String email = br.readLine();
-						pw.setEmailId(email);
+						cd.setEmailId(email);
 						if (sv.validateEmailID(email)) {
 							break;
 						} else {
@@ -125,7 +129,7 @@ public class MainUI {
 						System.out.println("█ • Enter your Mobile Number █");
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 						String phoneNo = br.readLine();
-						pw.setPhoneNo(phoneNo);
+						cd.setPhoneNo(phoneNo);
 						if (sv.validatePhoneNo(phoneNo)) {
 							break;
 						} else {
@@ -133,24 +137,29 @@ public class MainUI {
 							continue;
 						}
 					}
-
-					System.out.println(
-							"♠• Thank you for providing the details.\n You have been assigned a unique bank account which you can access after signing in.");
 					long bankAccount = (long) (Math.random() * 1000000 + 9999999);
-					pw.setBankAccount(bankAccount);
-					pw.setBalance(0);
-					ps.createAccount(pw);
-					break;
-
+					ad.setBankAccount(bankAccount);
+					System.out.println("♠• Thank you for providing the details. •♠\n ♠• You have been assigned "
+							+ bankAccount + " as your unique bank account number •♠.");
+					
+					ad.setBalance(0);
+					
+					
+					td.setTransactionDetails(transactionDetails);
+					cd.setTransactionD(td);
+					ad.setCd(cd);
+					ps.createAccount(ad);
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				break;
 
 			case 2:
 
 				try {
-					System.out.println("♠• You need to sign in to view balance •♠");
+
 					System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
 					System.out.println("█ • Enter your username      █");
 					System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
@@ -159,167 +168,130 @@ public class MainUI {
 					System.out.println("█ • Enter your password      █");
 					System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 					String password = br.readLine();
-					pw = sv.validateLogIn(username, password);
+					ad = sv.validateLogIn(username, password);
 
-					if (pw != null) {
-						System.out.println(ps.showBalance(pw));
-					} else if (pw == null) {
-						System.err.println("Incorrect Username or Password!");
-					}
+					if (ad != null) {
 
-					break;
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			case 3:
+						while (true) {
+							long transactionId, bankAccount2;
+							double deposit, withdraw, amount;
 
-				try {
-					System.out.println("♠• Please sign in to add balance to your account. •♠");
-					System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
-					System.out.println("█ • Enter your username      █");
-					System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-					String username = br.readLine();
-					System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
-					System.out.println("█ • Enter your password      █");
-					System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-					String password = br.readLine();
-					pw = sv.validateLogIn(username, password);
+							System.out.println("♠• Welcome " + ad.getConsumer().getConsumerName() + ". What would you like to do? ");
+							System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
+							System.out.println("█     1. Show Balance              █");
+							System.out.println("█     2. Deposit                   █");
+							System.out.println("█     3. Withdraw                  █");
+							System.out.println("█     4. Fund Transfer             █");
+							System.out.println("█     5. Print Transaction         █");
+							System.out.println("█     6. Sign Out                  █");
+							System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 
-					if (pw != null) {
-						System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
-						System.out.println("█ • Enter the amount you want to deposit █");
-						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-						double depo = sc.nextDouble();
-						System.out.println(ps.depositBalance(depo, pw));
+							int signedChoice = sc.nextInt();
+							switch (signedChoice) {
+							case 1:
+								ps.showBalance(ad);
+								System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
+								continue;
+							case 2:
 
-						System.out.println("♠• Amount Successfuly Deposited. •♠");
+								System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
+								System.out.println("█ • Enter the amount you want to deposit █");
+								System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
+								deposit = sc.nextDouble();
+								System.out.println(ps.depositBalance(deposit, ad));
+								System.out.println("♠• Amount Successfuly Deposited. •♠");
+								System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
+								ad.setAmount(deposit);
+								transactionId = (long) (Math.random() * 10000000 + 99999999);
+								transactionDetails.add((String.valueOf(ad.getConsumer().getTransactionD().getTransactionDate()) + "\t"));
+								transactionDetails.add((String.valueOf(td.getTransactionDate()) + "\t"));
+								transactionDetails.add(String.valueOf(transactionId) + "\t");
+								transactionDetails.add(String.valueOf(ad.getAmount()) + "\t");
+								transactionDetails.add(String.valueOf(ad.getBalance())+"\n");
+								ad.getConsumer().getTransactionD().setTransactionDetails(transactionDetails);
 
-					} else if (pw == null) {
-						System.err.println("Incorrect Username or Password!");
-					}
-					break;
+								continue;
+							case 3:
 
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+								System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
+								System.out.println("█ • Enter the amount you want to withdraw  █");
+								System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ ");
+								withdraw = sc.nextDouble();
+								if (ps.withdrawBalance(withdraw, ad) != null) {
+									System.out.println(ad);
+									System.out.println("♠• Amount Successfuly Withdrawn. •♠");
+									System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
+									ad.setAmount(withdraw);
+									transactionId = (long) (Math.random() * 10000000 + 99999999);
+									ad.getConsumer().getTransactionD().setTransactionDate(LocalDate.now());
+									transactionDetails.add((String.valueOf(ad.getConsumer().getTransactionD().getTransactionDate()) + "\t"));
+									transactionDetails.add(String.valueOf(transactionId) + "\t");
+									transactionDetails.add(String.valueOf(ad.getAmount()) + "\t");
+									transactionDetails.add(String.valueOf(ad.getBalance())+"\n");
+									ad.getConsumer().getTransactionD().setTransactionDetails(transactionDetails);
 
-			case 4:
+									continue;
+								} else if (ps.withdrawBalance(withdraw, ad) == null) {
+									System.err.println("Insufficient Funds!");
+									continue;
+								}
+								continue;
 
-				try {
-					System.out.println("♠• Please sign in to withdraw balance from your account. •♠");
-					System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
-					System.out.println("█ • Enter your username      █");
-					System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-					String username = br.readLine();
-					System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
-					System.out.println("█ • Enter your password      █");
-					System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-					String password = br.readLine();
-					pw = sv.validateLogIn(username, password);
-					if (pw != null) {
-						System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
-						System.out.println("█ • Enter the amount you want to withdraw  █");
-						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ ");
-						double withdraw = sc.nextDouble();
-						if (ps.withdrawBalance(withdraw, pw) != null) {
-							System.out.println(pw);
-							System.out.println("♠• Amount Successfuly Withdrawn. •♠");
-							break;
-						} else if (ps.withdrawBalance(withdraw, pw) == null) {
-							System.err.println("Insufficient Funds!");
-							break;
-						}
+							case 4:
 
-					} else if (pw == null) {
-						System.err.println("Incorrect Username or Password!");
-					}
+								System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
+								System.out.println("█ • Enter the bank account you wanna transfer fund  █");
+								System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
+								bankAccount2 = Long.parseLong(br.readLine());
+								System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
+								System.out.println("█ • Enter the amount         █");
+								System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
+								amount = Double.parseDouble(br.readLine());
+								ps.transferFund(bankAccount2, amount, ad);
+								if (ps.transferFund(bankAccount2, amount, ad) != null) {
+									System.out.println("♠• Funds Transferred Successfully! •♠");
+									ad.setAmount(amount);
+									
+									
+									transactionId = (long) (Math.random() * 10000000 + 99999999);
+									ad.getConsumer().getTransactionD().setTransactionDate(LocalDate.now());
+									transactionDetails.add((String.valueOf(ad.getConsumer().getTransactionD().getTransactionDate()) + "\t"));
+									transactionDetails.add(String.valueOf(transactionId) + "\t");
+									transactionDetails.add(String.valueOf(ad.getAmount()) + "\t");
+									transactionDetails.add(String.valueOf(ad.getBalance())+"\n");
+									ad.getConsumer().getTransactionD().setTransactionDetails(transactionDetails);
 
-					break;
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+									continue;
+								} else if (ps.transferFund(bankAccount2, amount, ad) == null) {
+									continue;
+								}
 
-			case 5:
+							case 5:
+								System.out.println(
+										"♠• Transaction details for the Bank Account Number " + ad.getBankAccount());
+								ps.printTransaction(ad.getConsumer().getTransactionD());
+								continue;
 
-				try {
-					System.out.println("♠• Please sign in to perform transactions. •♠");
-					System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
-					System.out.println("█ • Enter your username      █");
-					System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-					String username = br.readLine();
-					System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
-					System.out.println("█ • Enter your password      █");
-					System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-					String password = br.readLine();
-					pw = sv.validateLogIn(username, password);
-					if (pw != null) {
-						System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
-						System.out.println("█ • Enter the bank account you wanna transfer fund  █");
-						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-						long bankAccount2 = Long.parseLong(br.readLine());
-						System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
-						System.out.println("█ • Enter the amount         █");
-						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-						double amount = Double.parseDouble(br.readLine());
-						pw = ps.transferFund(bankAccount2, amount, pw);
-						if (pw != null) {
-							pw.setAmount(amount);
-							long transactionId = (long) (Math.random() * 10000000 + 99999999);
-							pw.setTransactionId(transactionId);
-							System.out.println("♠• Funds Transferred Successfully! •♠");
-							System.out.println("♠• Transaction ID: " + transactionId);
-							break;
-						} else if (pw == null) {
+							case 6:
+								System.out.println("♠• Have a nice day " + ad.getConsumer().getConsumerName() + ". •♠");
+								break;
+							}
 							break;
 						}
 
+					} else if (ad == null) {
+						System.err.println("Incorrect Username or Password!");
+						break;
 					}
-				}
 
-				catch (IOException e) { // TODO Auto-generated catch block e.printStackTrace(); }
-
-				}
-			case 6:
-
-				try {
-					System.out.println("♠• Please sign in to view transactions. •♠");
-					System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
-					System.out.println("█ • Enter your username      █");
-					System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-					String username = br.readLine();
-					System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
-					System.out.println("█ • Enter your password      █");
-					System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-					String password = br.readLine();
-					pw = sv.validateLogIn(username, password);
-					if (pw != null) {
-						System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
-						System.out.println("█ • Enter the transaction ID      █");
-						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-						long transId = Long.parseLong(br.readLine());
-						pw = ps.printTransaction(transId, pw);
-						if (ps.printTransaction(transId, pw) != null) {
-							System.out.println(
-									"♠• Transaction details for the transaction ID: " + pw.getTransactionId() + "•♠");
-							System.out.println("Receiver's Name: " + pw.getConsumerName());
-							System.out.println("Account Number: " + pw.getBankAccount());
-							System.out.println("Amount transacted: " + pw.getAmount());
-							break;
-						}
-
-					} else
-						System.err.println("The transaction ID you entered is either wrong, or does not exist!");
-					break;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
+				break;
 			}
-
 		}
+
 	}
+
 }

@@ -1,12 +1,14 @@
 package com.capgemini.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
-import com.capgemini.Bean.PaymentWallet;
+import com.capgemini.Bean.AccountDetails;
+import com.capgemini.Bean.ConsumerDetails;
 import com.capgemini.DAO.PaymentDAO;
 
 public class ServiceValidation {
@@ -18,14 +20,14 @@ public class ServiceValidation {
 
 	}
 
-	public PaymentWallet validateLogIn(String username, String password) {
+	public AccountDetails validateLogIn(String username, String password) {
 
-		List<PaymentWallet> list = PaymentDAO.getList();
+		ArrayList<AccountDetails> list = PaymentDAO.getList();
 
-		for (PaymentWallet pw : list) {
-			if (pw.getUserName().equalsIgnoreCase(username) && pw.getPassword().equals(password)) {
+		for (AccountDetails ad : list) {
+			if (ad.getUserName().equalsIgnoreCase(username) && ad.getPassword().equals(password)) {
 
-				return pw;
+				return ad;
 			}
 
 		}

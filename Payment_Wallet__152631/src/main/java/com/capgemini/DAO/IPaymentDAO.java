@@ -1,18 +1,19 @@
 package com.capgemini.DAO;
 
-import com.capgemini.Bean.PaymentWallet;
+import com.capgemini.Bean.AccountDetails;
+import com.capgemini.Bean.TransactionDetails;
 
 public interface IPaymentDAO {
-	public boolean createAccount(PaymentWallet pw);
+	public boolean createAccount(AccountDetails ad);
 
-	public PaymentWallet showBalance(PaymentWallet pw);
+	public void showBalance(AccountDetails ad);
 
-	public PaymentWallet depositBalance(double deposit, PaymentWallet pw);
+	public AccountDetails depositBalance(double deposit, AccountDetails ad);
 
-	public PaymentWallet withdrawBalance(double withdraw, PaymentWallet pw);
-	
-	public PaymentWallet transferFund(long bankaccount2, double amount, PaymentWallet pw);
-	
-	public PaymentWallet printTransaction(long transId, PaymentWallet pw);
+	public AccountDetails withdrawBalance(double withdraw, AccountDetails ad);
+
+	public AccountDetails transferFund(long bankaccount2, double amount, AccountDetails ad);
+
+	public void printTransaction(TransactionDetails td);
 
 }

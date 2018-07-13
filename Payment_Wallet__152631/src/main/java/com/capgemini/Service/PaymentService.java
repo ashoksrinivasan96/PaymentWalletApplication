@@ -1,43 +1,45 @@
 package com.capgemini.Service;
 
-import com.capgemini.Bean.PaymentWallet;
+import com.capgemini.Bean.AccountDetails;
+import com.capgemini.Bean.ConsumerDetails;
+import com.capgemini.Bean.TransactionDetails;
 import com.capgemini.DAO.PaymentDAO;
 
 public class PaymentService implements IPaymentService {
 
 	PaymentDAO pd = new PaymentDAO();
 
-	public boolean createAccount(PaymentWallet pw) {
+	public boolean createAccount(AccountDetails ad) {
 
-		return pd.createAccount(pw);
+		return pd.createAccount(ad);
 	}
 
-	public PaymentWallet showBalance(PaymentWallet pw) {
+	public void showBalance(AccountDetails ad) {
 
-		return pd.showBalance(pw);
+		 pd.showBalance(ad);
 	}
 
-	public PaymentWallet depositBalance(double deposit, PaymentWallet pw) {
+	public AccountDetails depositBalance(double deposit, AccountDetails ad) {
 
-		return pd.depositBalance(deposit, pw);
+		return pd.depositBalance(deposit, ad);
 
 	}
 
-	public PaymentWallet withdrawBalance(double withdraw, PaymentWallet pw) {
+	public AccountDetails withdrawBalance(double withdraw, AccountDetails ad) {
 
-		return pd.withdrawBalance(withdraw, pw);
+		return pd.withdrawBalance(withdraw, ad);
 	}
 
-	public PaymentWallet transferFund(long bankaccount2, double amount, PaymentWallet pw) {
+	public AccountDetails transferFund(long bankaccount2, double amount, AccountDetails ad) {
 		
-		return pd.transferFund(bankaccount2, amount, pw);
+		return pd.transferFund(bankaccount2, amount, ad);
 		
 	}
 
-	public PaymentWallet printTransaction(long transId, PaymentWallet pw) {
+	public void printTransaction(TransactionDetails td) {
 
 		
-			return pd.printTransaction(transId, pw);
+			 pd.printTransaction(td);
 		
 		
 	}
