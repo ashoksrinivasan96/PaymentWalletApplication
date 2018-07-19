@@ -8,34 +8,51 @@ import java.util.regex.Pattern;
 
 import com.capgemini.bean.AccountDetails;
 import com.capgemini.dao.ConnectionJDBC;
+import com.capgemini.ui.MainUI;
 import com.mysql.jdbc.Connection;
 
 public class AccountServiceValidation {
 	private Pattern pattern;
 	private Matcher matcher;
 
-	public AccountDetails validateLogIn(String username, String password) {
-			AccountDetails accountDetailsObject = new AccountDetails();
+	public AccountDetails validateLogIn(String username, String password, AccountDetails accountDetailsObject) {
+			
 		
 		try {
 			Connection con = ConnectionJDBC.jdbcConnection();
 			String userPassQuery = "select * from accountdetails where username=? and password = ? ";
+			String consumerQuery = "select * from consumerdetails where username=? and password =?";
 			PreparedStatement pstmt = con.prepareStatement(userPassQuery);
+			PreparedStatement pstmt1 = con.prepareStatement(consumerQuery);
 			pstmt.setString(1, username);
 			pstmt.setString(2, password);
+			pstmt1.setString(1, username);
+			pstmt1.setString(2, password);
+			
 			
 			ResultSet rs = pstmt.executeQuery();
+			ResultSet consumerRs = pstmt1.executeQuery();
 			while(rs.next()) {
-				accountDetailsObject.setUserName(username);
-				accountDetailsObject.setPassword(password);
 				
-				return accountDetailsObject;
+				while(consumerRs.next())
+				{
+					 MainUI.name = consumerRs.getString("name");
+					 break;
+				}
+				 accountDetailsObject.setBalance(rs.getDouble("balance"));
+				 accountDetailsObject.setBankAccount(rs.getLong("accountNumber"));
+				 accountDetailsObject.setUserName(username);
+				 accountDetailsObject.setPassword(password);
+				 return accountDetailsObject;
+				
 			}
+				 
+				 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		 return null;
 	}
 
 	public boolean validateUserName(String username) throws com.capgemini.exceptions.ExistingUsernameException {

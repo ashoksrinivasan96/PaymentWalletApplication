@@ -1,5 +1,9 @@
 package com.capgemini.dao;
 
-public interface ITransactionDAO {
+import com.capgemini.bean.AccountDetails;
+import com.capgemini.bean.TransactionDetails;
 
+public interface ITransactionDAO {
+	public void addTransactionDetails(TransactionDetails transactionDetailsObject);
+	public void printTransaction(AccountDetails accountDetailsObject);
 }

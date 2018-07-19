@@ -4,8 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import java.io.InputStreamReader;
-import java.time.LocalDate;
-import java.util.ArrayList;
+
 import java.util.Scanner;
 
 import com.capgemini.bean.AccountDetails;
@@ -19,6 +18,8 @@ import com.capgemini.service.ConsumerServiceValidation;
 import com.capgemini.service.TransactionService;
 
 public class MainUI {
+
+	public static String name;
 
 	public static void main(String[] args) throws ExistingUsernameException {
 
@@ -95,6 +96,7 @@ public class MainUI {
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 						String userName = br.readLine();
 						accountDetailsObject.setUserName(userName);
+						consumerDetailsObject.setUserName(userName);
 
 						if (!accountServiceValidationObject.validateUserName(userName)) {
 							System.err.println("Invalid Username!\n");
@@ -115,6 +117,7 @@ public class MainUI {
 						System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 						repassword = br.readLine();
 						accountDetailsObject.setPassword(password);
+						consumerDetailsObject.setPassword(password);
 						if (accountServiceValidationObject.validatePassword(password, repassword)) {
 							break;
 						}
@@ -146,15 +149,17 @@ public class MainUI {
 							continue;
 						}
 					}
+
 					long bankAccount = (long) (Math.random() * 1000000 + 9999999);
 					accountDetailsObject.setBankAccount(bankAccount);
 					System.out.println("♠• Thank you for providing the details. •♠\n ♠• You have been assigned "
 							+ bankAccount + " as your unique bank account number •♠.");
 
 					accountDetailsObject.setBalance(0);
-
-					consumerServiceObject.createAccount(consumerDetailsObject);
-					accountServiceObject.createAccount(accountDetailsObject);
+					consumerDetailsObject.setTransactionD(transactionDetailsObject);
+					accountDetailsObject.setCd(consumerDetailsObject);
+					consumerDetailsObject = consumerServiceObject.createAccount(consumerDetailsObject);
+					accountDetailsObject = accountServiceObject.createAccount(accountDetailsObject);
 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -174,15 +179,16 @@ public class MainUI {
 					System.out.println("█ • Enter your password      █");
 					System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 					String password = br.readLine();
-					accountDetailsObject = accountServiceValidationObject.validateLogIn(username, password);
+					accountDetailsObject = accountServiceValidationObject.validateLogIn(username, password,
+							accountDetailsObject);
 
-					if (accountDetailsObject!=null) {
+					if (accountDetailsObject != null) {
 
 						while (true) {
-							long transactionId, userTwoBankAccount;
+							long userTwoBankAccount;
 							double depositAmount, withdrawAmount, transferAmount;
 
-							System.out.println("♠• Welcome! What would you like to do? ");
+							System.out.println("♠• Welcome " + name + ". What would you like to do? ");
 							System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
 							System.out.println("█     1. Show Balance              █");
 							System.out.println("█     2. Deposit                   █");
@@ -207,18 +213,16 @@ public class MainUI {
 								System.out.println("█ • Enter the amount you want to deposit █");
 								System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 								depositAmount = sc.nextDouble();
-
-								if (accountServiceObject.depositBalance(depositAmount, accountDetailsObject)) {
+								accountDetailsObject = accountServiceObject.depositBalance(depositAmount,
+										accountDetailsObject);
+								if (accountDetailsObject != null) {
+									System.out.println(accountDetailsObject);
 									System.out.println("♠• Amount Successfuly Deposited. •♠");
 									System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
-									accountDetailsObject.setAmount(depositAmount);
-									transactionDetailsObject.setTransactionDate(LocalDate.now());
-									transactionDetailsObject
-											.setTransactionId((long) (Math.random() * 10000000 + 99999999));
-									transactionDetailsObject.setTransactionType("Credited");
-									transactionDetailsObject.setAmount(depositAmount);
-									transactionDetailsObject.setBankAccount(accountDetailsObject.getBankAccount());
-									transactionServiceObject.addTransactionDetails(transactionDetailsObject);
+
+								} else if (accountDetailsObject == null) {
+									System.out.println("Something went wrong!");
+									continue;
 								}
 
 								continue;
@@ -228,25 +232,18 @@ public class MainUI {
 								System.out.println("█ • Enter the amount you want to withdraw  █");
 								System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ ");
 								withdrawAmount = sc.nextDouble();
-								if (accountServiceObject.withdrawBalance(withdrawAmount,
-										accountDetailsObject) != null) {
+								accountDetailsObject = accountServiceObject.withdrawBalance(withdrawAmount,
+										accountDetailsObject);
+								if (accountDetailsObject != null) {
 									System.out.println(accountDetailsObject);
 									System.out.println("♠• Amount Successfuly Withdrawn. •♠");
 									System.out.println("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
-									accountDetailsObject.setAmount(withdrawAmount);
-									transactionDetailsObject.setTransactionDate(LocalDate.now());
-									transactionDetailsObject
-											.setTransactionId((long) (Math.random() * 10000000 + 99999999));
-									transactionDetailsObject.setTransactionType("Debited");
-									transactionServiceObject.addTransactionDetails(transactionDetailsObject);
 
 									continue;
-								} else if (accountServiceObject.withdrawBalance(withdrawAmount,
-										accountDetailsObject) == null) {
+								} else if (accountDetailsObject == null) {
 									System.err.println("Insufficient Funds!");
 									continue;
 								}
-								continue;
 
 							case 4:
 
@@ -261,21 +258,13 @@ public class MainUI {
 								System.out.println("█ • Enter the amount         █");
 								System.out.println("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 								transferAmount = Double.parseDouble(br.readLine());
-								transactionId = (long) (Math.random() * 10000000 + 99999999);
-								accountDetailsObject.getConsumer().getTransactionD().setTransactionId(transactionId);
-								if (accountServiceObject.transferFund(userTwoBankAccount, transferAmount,
-										accountDetailsObject)) {
+								accountDetailsObject = accountServiceObject.transferFund(userTwoBankAccount,
+										transferAmount, accountDetailsObject);
+								if (accountDetailsObject != null) {
 									System.out.println("♠• Funds Transferred Successfully! •♠");
-									accountDetailsObject.setAmount(transferAmount);
-									transactionDetailsObject.setTransactionDate(LocalDate.now());
-									transactionDetailsObject
-											.setTransactionId((long) (Math.random() * 10000000 + 99999999));
-									transactionDetailsObject.setTransactionType("Debited");
-									transactionServiceObject.addTransactionDetails(transactionDetailsObject);
 
 									continue;
-								} else if (!accountServiceObject.transferFund(userTwoBankAccount, transferAmount,
-										accountDetailsObject)) {
+								} else if (accountDetailsObject == null) {
 									System.err.println("Bank Account not found!");
 									continue;
 								}
@@ -285,22 +274,22 @@ public class MainUI {
 										"  ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
 								System.out.println("  █           ♠• Transaction details for the Bank Account Number "
 										+ accountDetailsObject.getBankAccount() + " •♠         █");
-								transactionServiceObject
-										.printTransaction(accountDetailsObject.getConsumer().getTransactionD());
+								System.out.println(
+										"  █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█\n");
+								transactionServiceObject.printTransaction(accountDetailsObject);
 								continue;
 
 							case 6:
-								System.out.println("♠• Have a nice day "
-										+ accountDetailsObject.getConsumer().getConsumerName() + ". •♠");
+								System.out.println("♠• Have a nice day " + name + ". •♠");
 								break;
 							}
 							break;
 						}
 
 					} else if (accountDetailsObject == null) {
-						
+
 						System.out.println("♠  Incorrect Username or Password!   ♠");
-						
+
 						continue;
 					}
 

@@ -7,9 +7,9 @@ public class AccountService {
 
 	AccountDAO accountDaoObject = new AccountDAO();
 
-	public void createAccount(AccountDetails accountDetailsObject) {
+	public AccountDetails createAccount(AccountDetails accountDetailsObject) {
 
-		accountDaoObject.createAccount(accountDetailsObject);
+		return accountDaoObject.createAccount(accountDetailsObject);
 
 	}
 
@@ -18,19 +18,19 @@ public class AccountService {
 
 	}
 
-	public boolean depositBalance(double depositAmount, AccountDetails accountDetailsObject) {
+	public AccountDetails depositBalance(double depositAmount, AccountDetails accountDetailsObject) {
 
-		return accountDaoObject.depositBalance(depositAmount, accountDetailsObject);
+		 return accountDaoObject.depositBalance(depositAmount, accountDetailsObject);
 	}
 
-	public Object withdrawBalance(double withdrawAmount, AccountDetails accountDetailsObject) {
+	public AccountDetails withdrawBalance(double withdrawAmount, AccountDetails accountDetailsObject) {
 
-		return null;
+		return accountDaoObject.withdrawBalance(withdrawAmount, accountDetailsObject);
 	}
 
-	public boolean transferFund(long userTwoBankAccount, double transferAmount, AccountDetails accountDetailsObject) {
+	public AccountDetails transferFund(long userTwoBankAccount, double transferAmount, AccountDetails accountDetailsObject) {
 
-		return false;
+		return accountDaoObject.transferFund(userTwoBankAccount, transferAmount, accountDetailsObject);
 	}
 
 }

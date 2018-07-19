@@ -8,9 +8,9 @@ public class ConsumerService {
 
 	ConsumerDAO consumerDaoObject = new ConsumerDAO();
 
-	public void createAccount(ConsumerDetails consumerDetailsObject) {
+	public ConsumerDetails createAccount(ConsumerDetails consumerDetailsObject) {
 
-		consumerDaoObject.createAccount(consumerDetailsObject);
+		return consumerDaoObject.createAccount(consumerDetailsObject);
 
 	}
 }

@@ -25,5 +25,6 @@
 	<classpathentry kind="con" path="org.jboss.ide.eclipse.as.classpath.core.javaee-5.0"/>
 	<classpathentry kind="lib" path="D:/Ashok/lib/ojdbc6.jar"/>
 	<classpathentry kind="lib" path="D:/Users/gassrini/Downloads/com.mysql.jdbc_5.1.5.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

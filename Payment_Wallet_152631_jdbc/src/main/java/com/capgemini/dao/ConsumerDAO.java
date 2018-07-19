@@ -8,13 +8,13 @@ import com.mysql.jdbc.Connection;
 
 public class ConsumerDAO implements IConsumerDAO {
 
-	public void createAccount(ConsumerDetails consumerDetailsObject) {
+	public ConsumerDetails createAccount(ConsumerDetails consumerDetailsObject) {
 		
 		try {
 			
 			Connection c = ConnectionJDBC.jdbcConnection();
 			
-			String addQuery = "insert into consumerdetails values(?,?,?,?,?)";
+			String addQuery = "insert into consumerdetails values(?,?,?,?,?,?,?)";
 			
 				PreparedStatement preStatement = c.prepareStatement(addQuery);
 				preStatement.setString(1, consumerDetailsObject.getConsumerName());
@@ -22,14 +22,17 @@ public class ConsumerDAO implements IConsumerDAO {
 				preStatement.setString(3, consumerDetailsObject.getGender());
 				preStatement.setString(4, consumerDetailsObject.getPhoneNo());
 				preStatement.setString(5, consumerDetailsObject.getEmailId());
+				preStatement.setString(6, consumerDetailsObject.getUserName());
+				preStatement.setString(7, consumerDetailsObject.getPassword());
 				preStatement.execute();
 				c.close();
+				return consumerDetailsObject;
 				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+			return null;
 		}
 	}
 

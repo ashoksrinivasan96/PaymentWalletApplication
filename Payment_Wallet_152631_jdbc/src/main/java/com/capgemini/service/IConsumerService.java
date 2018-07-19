@@ -1,5 +1,8 @@
 package com.capgemini.service;
 
-public interface IConsumerService {
+import com.capgemini.bean.ConsumerDetails;
 
+public interface IConsumerService {
+	
+	public ConsumerDetails createAccount(ConsumerDetails consumerDetailsObject);
 }

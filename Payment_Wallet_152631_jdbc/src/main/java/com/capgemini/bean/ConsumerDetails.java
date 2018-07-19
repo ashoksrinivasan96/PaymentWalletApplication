@@ -8,6 +8,8 @@ public class ConsumerDetails {
 	private String phoneNo;
 	private String gender;
 	private TransactionDetails transaction;
+	private String userName;
+	private String password;
 
 	public TransactionDetails getTransactionD() {
 		return transaction;
@@ -61,6 +63,22 @@ public class ConsumerDetails {
 
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }
